@@ -1,11 +1,12 @@
 const express = require("express");
 const db = require("../database/db");
 const router = express.Router();
+const OneSignal = require('onesignal-node');
 
-// 📌 Add an appointment and notify the barber
+
+const oneSignalClient = new OneSignal.Client(process.env.ONESIGNAL_APP_ID, process.env.ONESIGNAL_API_KEY)
+
 router.post("/book", (req, res) => {
-    console.log("we called");
-
     const { barber_id, client_name, client_phone, appointment_date, appointment_time } = req.body;
 
     db.run(
@@ -18,33 +19,21 @@ router.post("/book", (req, res) => {
 
             const appointment_id = this.lastID;
 
-            // Send notification to the barber via WebSockets
-            if (global.io && global.barberSockets[barber_id]) {
-                global.io.to(global.barberSockets[barber_id]).emit("newAppointment", {
-                    appointment_id,
-                    client_name,
-                    client_phone,
-                    appointment_date,
-                    appointment_time,
+
+            const notification = {
+                contents: { en: `📅 Nouveau rendez-vous avec ${client_name} le ${appointment_date} à ${appointment_time}` },
+                include_external_user_ids: [String(barber_id)] // 📌 Envoie au barbier spécifique
+            };
+
+            // 📌 Envoyer la notification
+            oneSignalClient.createNotification(notification)
+                .then(response => {
+                    console.log("✅ Notification envoyée avec succès :", response.body);
+                })
+                .catch(error => {
+                    console.error("❌ Erreur d'envoi de la notification :", error);
                 });
-            }
-
-            res.json({ message: "✅ Appointment booked!", appointment_id });
-        }
-    );
-});
-
-// 📌 Get all appointments for a barber
-router.get("/:barber_id", (req, res) => {
-    const { barber_id } = req.params;
-    db.all(
-        `SELECT * FROM Appointments WHERE barber_id = ? ORDER BY appointment_date, appointment_time`,
-        [barber_id],
-        (err, rows) => {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            res.json(rows);
+            res.json({ message: "Rendez-vous reserve !", appointment_id });
         }
     );
 });
