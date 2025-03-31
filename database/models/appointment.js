@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db')
 const Client = require('./client')
 const Hairdresser = require('./hairdresser');
-const AppointmentStatus = require('./apoiment_status')
+const AppointmentStatus = require('./appointment_status')
 
 
 const Appointment = sequelize.define('Appointment', {
@@ -16,4 +16,5 @@ const Appointment = sequelize.define('Appointment', {
 Appointment.belongsTo(Client, { foreignKey: 'client_id' });
 Appointment.belongsTo(Hairdresser, { foreignKey: 'hairdresser_id' });
 Appointment.belongsTo(AppointmentStatus, { foreignKey: 'status_id', onDelete: 'SET NULL' });
+
 module.exports = Appointment;

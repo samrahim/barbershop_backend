@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/db');
-const HairdresserAvailability = require('./hairdresserAvailability');
+const sequelize = require('../db');
+const HairdresserAvailability = require('./hairdresser_availability');
 
 const TimeSlot = sequelize.define('TimeSlot', {
     id: {

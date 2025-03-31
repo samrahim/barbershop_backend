@@ -1,7 +1,7 @@
 const express = require('express');
 const initDb = require('./database/initDB');
 const hairdresserRoutes = require('./routes/hairedresser');
-const AppointmentStatus = require('./database/models/apoiment_status')
+
 const app = express();
 app.use(express.json());
 
