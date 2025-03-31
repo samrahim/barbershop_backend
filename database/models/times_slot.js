@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const HairdresserAvailability = require('./hairdresser_availability');
+const HairdresserWorkSchedule = require('./hairdresser_work_schedule');
 
 const TimeSlot = sequelize.define('TimeSlot', {
     id: {
@@ -8,28 +8,28 @@ const TimeSlot = sequelize.define('TimeSlot', {
         primaryKey: true,
         autoIncrement: true
     },
-    availability_id: {
+    work_schedule_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: HairdresserAvailability,
+            model: HairdresserWorkSchedule,
             key: 'id'
         },
         onDelete: 'CASCADE'
     },
     start_time: {
-        type: DataTypes.STRING,
+        type: DataTypes.TIME,
         allowNull: false
     },
     end_time: {
-        type: DataTypes.STRING,
+        type: DataTypes.TIME,
         allowNull: false
     }
 }, {
     timestamps: false
 });
 
-HairdresserAvailability.hasMany(TimeSlot, { foreignKey: 'availability_id', onDelete: 'CASCADE' });
-TimeSlot.belongsTo(HairdresserAvailability, { foreignKey: 'availability_id' });
+HairdresserWorkSchedule.hasMany(TimeSlot, { foreignKey: 'work_schedule_id', onDelete: 'CASCADE' });
+TimeSlot.belongsTo(HairdresserWorkSchedule, { foreignKey: 'work_schedule_id' });
 
 module.exports = TimeSlot;

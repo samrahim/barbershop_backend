@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 
-app.use('/api', hairdresserRoutes);
+app.use('/hairdresser', hairdresserRoutes);
 initDb();
 
 
