@@ -18,13 +18,17 @@ const HairdresserOffDays = sequelize.define('HairdresserOffDays', {
         onDelete: 'CASCADE'
     },
     day_off: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATEONLY,
         allowNull: false
+    },
+    is_recurring: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     timestamps: false
 });
-
 
 Hairdresser.hasMany(HairdresserOffDays, { foreignKey: 'hairdresser_id', onDelete: 'CASCADE' });
 HairdresserOffDays.belongsTo(Hairdresser, { foreignKey: 'hairdresser_id' });

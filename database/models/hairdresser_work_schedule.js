@@ -18,7 +18,7 @@ const HairdresserWorkSchedule = sequelize.define('HairdresserWorkSchedule', {
         onDelete: 'CASCADE'
     },
     start_day: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     start_time: {
@@ -26,12 +26,16 @@ const HairdresserWorkSchedule = sequelize.define('HairdresserWorkSchedule', {
         allowNull: false
     },
     end_day: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     end_time: {
         type: DataTypes.TIME,
         allowNull: false
+    },
+    duration: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }
 }, {
     timestamps: false

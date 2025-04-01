@@ -2,7 +2,6 @@ const sequelize = require('./db');
 const service = require('./models/service')
 const appointment = require('./models/appointment')
 const client = require('./models/client')
-const times_slot = require('./models/times_slot')
 const hairdresser = require("./models/hairdresser");
 const HairdresserWorkschedule = require('./models/hairdresser_work_schedule')
 const offDays = require('./models/off_days')
