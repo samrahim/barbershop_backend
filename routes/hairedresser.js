@@ -31,7 +31,7 @@ router.post('/:id/off-days', async (req, res) => {
         const hairdresser_id = req.params.id;
         const { off_day } = req.body;
 
-        if (!hairdresser_id || !off_day || off_day.repeat === undefined) {
+        if (!hairdresser_id || !off_day || !off_day.repeat) {
             return res.status(400).json({
                 error: "i dont know ??????",
                 day: off_day?.day || "day not found",
@@ -67,7 +67,7 @@ router.get('/:id/availability', async (req, res) => {
             attributes: ['day_off', 'is_recurring'],
             raw: true
         });
-        console.log(offDays);
+
 
 
         const recurringOffDays = offDays
@@ -133,8 +133,11 @@ router.post('/:id/work-schedule', async (req, res) => {
     try {
         const hairdresser_id = req.params.id;
         const { schedule, duration } = req.body;
+        console.log(schedule);
 
-
+        if (!schedule) {
+            return res.json({ "error": "schedule is requiredddddddd" })
+        }
         const hairdresser = await Hairdresser.findByPk(hairdresser_id);
         if (!hairdresser) {
             return res.status(404).json({ error: "Coiffeur introuvable" });
@@ -205,6 +208,7 @@ router.post('/:id/work-schedule', async (req, res) => {
 router.get('/:id/planing', async (req, res) => {
     const hairdresser_id = req.params.id;
     const start_day = req.query.start_day;
+    console.log("start day--------------->", start_day);
 
     WorkSchedule.findAll({
         where: {
@@ -212,7 +216,11 @@ router.get('/:id/planing', async (req, res) => {
             start_day: start_day
         }
     })
-        .then((r) => res.json(r))
+        .then((r) => {
+            console.log(r);
+
+            return res.json(r)
+        })
         .catch((error) => res.status(500).json({ error: error.message }));
 });
 

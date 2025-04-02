@@ -1,6 +1,7 @@
 const sequelize = require('./db');
 const service = require('./models/service')
 const appointment = require('./models/appointment')
+
 const client = require('./models/client')
 const hairdresser = require("./models/hairdresser");
 const HairdresserWorkschedule = require('./models/hairdresser_work_schedule')
@@ -22,6 +23,7 @@ const initDb = async () => {
             });
             console.log(" Admin created");
         }
+
 
     } catch (error) {
         console.error('Error DB:', error);
